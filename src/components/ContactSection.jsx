@@ -1,230 +1,208 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Send, Github, Linkedin, CheckCircle2, Terminal, Copy, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 import { PERSONAL_INFO } from '../data/portfolioData';
-import { soundFX } from '../utils/audio';
+import soundFX from '../utils/audio';
 
-export default function ContactSection() {
+const EMAILJS_SERVICE_ID = 'service_ul359yp';
+const EMAILJS_TEMPLATE_ID = 'template_da05111';
+const EMAILJS_PUBLIC_KEY = '8Gq-OQOLep-F3PsOr';
+
+const ContactSection = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isTransmitting, setIsTransmitting] = useState(false);
   const [transmitted, setTransmitted] = useState(false);
-  const [copiedEmail, setCopiedEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
-
-    soundFX.playBeep();
+    soundFX.playClick();
     setIsTransmitting(true);
+    setErrorMessage('');
 
-    setTimeout(() => {
+    try {
+      // EmailJS Automated Dispatch
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          name: formData.name,
+          from_name: formData.name,
+          email: formData.email,
+          from_email: formData.email,
+          reply_to: formData.email,
+          message: formData.message,
+          to_name: 'Cathrin R',
+        },
+        EMAILJS_PUBLIC_KEY
+      );
+
       setIsTransmitting(false);
       setTransmitted(true);
-      soundFX.playBeep();
+      soundFX.playGlitch();
       setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setTransmitted(false), 4000);
-    }, 1200);
+
+      setTimeout(() => {
+        setTransmitted(false);
+      }, 5000);
+    } catch (error) {
+      console.error('EmailJS transmission error:', error);
+      setIsTransmitting(false);
+      setErrorMessage('Transmission encountered an error. Please email directly.');
+      setTimeout(() => setErrorMessage(''), 6000);
+    }
   };
 
-  const copyEmail = () => {
-    soundFX.playClick();
-    navigator.clipboard.writeText(PERSONAL_INFO.email);
-    setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2000);
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    soundFX.playHover();
   };
 
   return (
-    <section id="contact" style={{ padding: '80px 0', position: 'relative', backgroundColor: '#070a12' }}>
-      <div style={{ width: '100%', maxWidth: '1240px', margin: '0 auto', padding: '0 2rem' }}>
-        
-        {/* Header */}
-        <div style={{ textAlign: 'center', maxWidth: '650px', margin: '0 auto 50px auto', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-          <div>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '6px 14px',
-              borderRadius: '8px',
-              backgroundColor: '#18181b',
-              border: '1px solid rgba(163, 230, 53, 0.4)',
-              color: '#a3e635',
-              fontSize: '12px',
-              fontFamily: 'JetBrains Mono, monospace',
-              fontWeight: 600
-            }}>
-              <Mail size={14} color="#a3e635" />
-              <span>DIRECT TELEMETRY</span>
-            </div>
-          </div>
-          <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
-            Get In <span className="text-gradient">Touch</span>
-          </h2>
-          <p style={{ color: '#a1a1aa', fontSize: '0.95rem', margin: 0, lineHeight: 1.6 }}>
-            Open for full-time Full Stack Engineering opportunities, AI project collaborations, or technical inquiries.
+    <section id="contact" className="py-24 px-6 relative z-10">
+      <div className="max-w-5xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="font-mono text-xs tracking-[0.2em] uppercase text-[#D4AF37]/70 mb-3">
+            06 // CONTACT
           </p>
-        </div>
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold text-white mb-4">
+            Let's Build<br />
+            <span className="text-gold-gradient">Something Meaningful.</span>
+          </h2>
+        </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '3rem', maxWidth: '1024px', margin: '0 auto', alignItems: 'start' }}>
-          
-          {/* Left Column: Direct Contact Info */}
-          <div style={{ gridColumn: 'span 5 / span 5', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-            <div className="glass-card" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', fontFamily: 'JetBrains Mono, monospace', display: 'flex', alignItems: 'center', gap: '8px', margin: 0 }}>
-                <Terminal size={18} color="#a3e635" />
-                <span>CHANNELS</span>
-              </h3>
+        {/* Direct Contact Links */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="flex flex-wrap justify-center gap-4 mt-8"
+        >
+          <a 
+            href={`mailto:${PERSONAL_INFO.email}`}
+            onMouseEnter={() => soundFX.playHover()}
+            onClick={() => soundFX.playClick()}
+            className="px-5 py-2.5 rounded-full border border-[#D4AF37]/25 text-[#E5C76B] text-sm font-mono hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 hover:text-[#FFE29A] transition-all"
+          >
+            {PERSONAL_INFO.email}
+          </a>
+          <a 
+            href={`tel:${PERSONAL_INFO.phone}`}
+            onMouseEnter={() => soundFX.playHover()}
+            onClick={() => soundFX.playClick()}
+            className="px-5 py-2.5 rounded-full border border-[#D4AF37]/25 text-[#E5C76B] text-sm font-mono hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 hover:text-[#FFE29A] transition-all"
+          >
+            {PERSONAL_INFO.phone}
+          </a>
+          <a 
+            href={PERSONAL_INFO.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => soundFX.playHover()}
+            onClick={() => soundFX.playClick()}
+            className="px-5 py-2.5 rounded-full border border-[#D4AF37]/25 text-[#E5C76B] text-sm font-mono hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 hover:text-[#FFE29A] transition-all"
+          >
+            GITHUB
+          </a>
+          <a 
+            href={PERSONAL_INFO.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            onMouseEnter={() => soundFX.playHover()}
+            onClick={() => soundFX.playClick()}
+            className="px-5 py-2.5 rounded-full border border-[#D4AF37]/25 text-[#E5C76B] text-sm font-mono hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/10 hover:text-[#FFE29A] transition-all"
+          >
+            LINKEDIN
+          </a>
+        </motion.div>
 
-              {/* Email */}
-              <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <div style={{ width: '38px', height: '38px', borderRadius: '8px', backgroundColor: 'rgba(163, 230, 53, 0.1)', border: '1px solid rgba(163, 230, 53, 0.3)', color: '#a3e635', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <Mail size={18} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#71717a', textTransform: 'uppercase' }}>Email</div>
-                    <a href={`mailto:${PERSONAL_INFO.email}`} style={{ fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: '#e4e4e7', textDecoration: 'none' }}>
-                      {PERSONAL_INFO.email}
-                    </a>
-                  </div>
-                </div>
-                <button
-                  onClick={copyEmail}
-                  title="Copy email to clipboard"
-                  style={{ padding: '8px', borderRadius: '6px', backgroundColor: '#27272a', color: '#a1a1aa', border: 'none', cursor: 'pointer' }}
-                >
-                  {copiedEmail ? <Check size={16} color="#34d399" /> : <Copy size={16} />}
-                </button>
+        {/* Live Automated Email Form */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="rounded-2xl border border-white/5 bg-[#0A0A0A]/80 p-6 mt-12 max-w-lg mx-auto backdrop-blur-xl relative overflow-hidden"
+        >
+          {transmitted ? (
+            <div className="py-12 flex flex-col items-center justify-center">
+              <div className="w-12 h-12 rounded-full border border-[#D4AF37] flex items-center justify-center mb-4 bg-[#D4AF37]/10">
+                <svg className="w-6 h-6 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
               </div>
-
-              {/* Phone */}
-              <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '8px', backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#34d399', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Phone size={18} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#71717a', textTransform: 'uppercase' }}>Phone</div>
-                  <a href={`tel:${PERSONAL_INFO.phone}`} style={{ fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: '#e4e4e7', textDecoration: 'none' }}>
-                    {PERSONAL_INFO.phone}
-                  </a>
-                </div>
-              </div>
-
-              {/* Location */}
-              <div style={{ padding: '16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ width: '38px', height: '38px', borderRadius: '8px', backgroundColor: 'rgba(99, 102, 241, 0.1)', border: '1px solid rgba(99, 102, 241, 0.3)', color: '#818cf8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <MapPin size={18} />
-                </div>
-                <div>
-                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#71717a', textTransform: 'uppercase' }}>Location</div>
-                  <div style={{ fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: '#e4e4e7' }}>{PERSONAL_INFO.location}</div>
-                </div>
-              </div>
-
-              {/* Social Buttons */}
-              <div style={{ paddingTop: '16px', borderTop: '1px solid #27272a', display: 'flex', gap: '12px' }}>
-                <a
-                  href={PERSONAL_INFO.github}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => soundFX.playClick()}
-                  style={{ flex: 1, height: '40px', borderRadius: '8px', backgroundColor: '#18181b', border: '1px solid #27272a', color: '#d4d4d8', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', textDecoration: 'none' }}
-                >
-                  <Github size={16} />
-                  <span>GitHub</span>
-                </a>
-                <a
-                  href={PERSONAL_INFO.linkedin}
-                  target="_blank"
-                  rel="noreferrer"
-                  onClick={() => soundFX.playClick()}
-                  style={{ flex: 1, height: '40px', borderRadius: '8px', backgroundColor: '#18181b', border: '1px solid #27272a', color: '#d4d4d8', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', textDecoration: 'none' }}
-                >
-                  <Linkedin size={16} />
-                  <span>LinkedIn</span>
-                </a>
-              </div>
-
+              <h3 className="text-white font-display text-xl mb-2">Message Dispatched Successfully ✓</h3>
+              <p className="text-[#a0a0a0]/70 font-mono text-sm">Automated transmission delivered to Cathrin R.</p>
             </div>
-          </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4 text-left">
+              <div>
+                <input 
+                  type="text" 
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="NAME // ALIAS" 
+                  required
+                  className="w-full bg-[#090909] border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-[#a0a0a0]/40 focus:border-[#D4AF37] focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <input 
+                  type="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="COMM LINK // EMAIL" 
+                  required
+                  className="w-full bg-[#090909] border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-[#a0a0a0]/40 focus:border-[#D4AF37] focus:outline-none transition-colors"
+                />
+              </div>
+              <div>
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="TRANSMISSION DATA..." 
+                  required
+                  rows={4}
+                  className="w-full bg-[#090909] border border-white/10 rounded-lg px-4 py-3 text-white font-mono text-sm placeholder-[#a0a0a0]/40 focus:border-[#D4AF37] focus:outline-none transition-colors resize-none"
+                ></textarea>
+              </div>
 
-          {/* Right Column: Terminal Form */}
-          <div style={{ gridColumn: 'span 7 / span 7' }}>
-            <div className="glass-card" style={{ padding: '24px' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#ffffff', fontFamily: 'JetBrains Mono, monospace', display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', margin: 0 }}>
-                <span>SEND DIRECT MESSAGE</span>
-                <span className="tech-pill emerald" style={{ fontSize: '10px' }}>ENCRYPTED</span>
-              </h3>
-
-              {transmitted ? (
-                <div style={{ padding: '32px', borderRadius: '12px', backgroundColor: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <CheckCircle2 size={36} color="#34d399" style={{ margin: '0 auto' }} />
-                  <h4 style={{ color: '#ffffff', fontWeight: 700, fontSize: '1rem', fontFamily: 'JetBrains Mono, monospace', margin: 0 }}>Transmission Dispatched</h4>
-                  <p style={{ color: '#d4d4d8', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', margin: 0 }}>
-                    Thank you! Your message has been encrypted and delivered to Cathrin R.
-                  </p>
+              {errorMessage && (
+                <div className="text-red-400 font-mono text-xs py-1">
+                  {errorMessage}
                 </div>
-              ) : (
-                <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase', marginBottom: '6px' }}>Your Name</label>
-                    <input
-                      type="text"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                      placeholder="e.g. Alex Johnson"
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', backgroundColor: '#18181b', border: '1px solid #27272a', color: '#fafafa', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase', marginBottom: '6px' }}>Email Address</label>
-                    <input
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                      placeholder="alex@company.com"
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', backgroundColor: '#18181b', border: '1px solid #27272a', color: '#fafafa', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ display: 'block', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase', marginBottom: '6px' }}>Message Payload</label>
-                    <textarea
-                      rows={4}
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      required
-                      placeholder="Discuss job opportunities, project requirements, or technical collaborations..."
-                      style={{ width: '100%', padding: '12px 16px', borderRadius: '8px', backgroundColor: '#18181b', border: '1px solid #27272a', color: '#fafafa', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    disabled={isTransmitting}
-                    className="btn-primary"
-                    style={{ width: '100%', height: '44px', fontSize: '12px' }}
-                  >
-                    {isTransmitting ? (
-                      <span>Transmitting Payload...</span>
-                    ) : (
-                      <>
-                        <Send size={16} />
-                        <span>Transmit Message</span>
-                      </>
-                    )}
-                  </button>
-                </form>
               )}
 
-            </div>
-          </div>
-
-        </div>
-
+              <button 
+                type="submit" 
+                disabled={isTransmitting}
+                onMouseEnter={() => soundFX.playHover()}
+                className="w-full py-3 rounded-lg bg-[#D4AF37] text-black font-semibold font-mono text-sm tracking-wider uppercase hover:bg-[#E5C76B] active:scale-[0.98] transition-all disabled:opacity-70 flex items-center justify-center gap-2"
+              >
+                {isTransmitting ? (
+                  <>
+                    <span className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin"></span>
+                    TRANSMITTING PAYLOAD...
+                  </>
+                ) : (
+                  'INITIATE PROTOCOL →'
+                )}
+              </button>
+            </form>
+          )}
+        </motion.div>
       </div>
     </section>
   );
-}
+};
+
+export default ContactSection;

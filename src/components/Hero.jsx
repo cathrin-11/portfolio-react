@@ -1,479 +1,157 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, Download, MapPin, Mail, Phone, Activity, Github, Linkedin, FileText, Briefcase, GraduationCap, Layers, Award, Sparkles } from 'lucide-react';
-import { PERSONAL_INFO } from '../data/portfolioData';
+import React from 'react';
+import { motion } from 'framer-motion';
+import soundFX from '../utils/audio';
+import { Download, Terminal, ArrowRight } from 'lucide-react';
 
-export default function Hero({ onOpenResume }) {
-  const canvasRef = useRef(null);
-  const [typedTitle, setTypedTitle] = useState('');
-  const titles = [
-    "Full Stack Developer",
-    "React & Node.js Specialist",
-    "Spring Boot & FastAPI Engineer",
-    "AI Healthcare Matcher Developer"
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.15,
+    },
+  },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] } 
+  },
+};
+
+const Hero = ({ onOpenTerminal }) => {
+  const techStack = [
+    'NODE.JS',
+    'REACT.JS',
+    'SPRING BOOT',
+    'FASTAPI',
+    'MONGODB',
+    'MYSQL',
+    'REST APIS',
+    'AWS CLOUD'
   ];
-  const [titleIdx, setTitleIdx] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  // Typing loop effect
-  useEffect(() => {
-    const currentFullText = titles[titleIdx];
-    let speed = isDeleting ? 40 : 80;
-
-    if (!isDeleting && typedTitle === currentFullText) {
-      setTimeout(() => setIsDeleting(true), 2200);
-      return;
-    }
-
-    if (isDeleting && typedTitle === '') {
-      setIsDeleting(false);
-      setTitleIdx((prev) => (prev + 1) % titles.length);
-      return;
-    }
-
-    const timer = setTimeout(() => {
-      setTypedTitle(prev => 
-        isDeleting 
-          ? currentFullText.substring(0, prev.length - 1)
-          : currentFullText.substring(0, prev.length + 1)
-      );
-    }, speed);
-
-    return () => clearTimeout(timer);
-  }, [typedTitle, isDeleting, titleIdx]);
-
-  // Animated Background Particles
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    let animationFrameId;
-
-    const resizeCanvas = () => {
-      if (canvas.parentElement) {
-        canvas.width = canvas.parentElement.offsetWidth;
-        canvas.height = canvas.parentElement.offsetHeight;
-      }
-    };
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const particles = Array.from({ length: 40 }, () => ({
-      x: Math.random() * (canvas.width || 800),
-      y: Math.random() * (canvas.height || 600),
-      radius: Math.random() * 2 + 1,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
-      color: Math.random() > 0.5 ? '#a3e635' : '#6366f1'
-    }));
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particles.forEach(p => {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
-        ctx.fill();
-
-        p.x += p.vx;
-        p.y += p.vy;
-
-        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-      });
-
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
 
   return (
-    <section id="objective" style={{
-      position: 'relative',
-      paddingTop: '110px',
-      paddingBottom: '70px',
-      minHeight: '88vh',
-      display: 'flex',
-      alignItems: 'center',
-      overflow: 'hidden'
-    }}>
-      {/* Background Canvas Particles */}
-      <canvas 
-        ref={canvasRef} 
-        style={{
-          position: 'absolute',
-          top: 0, left: 0, right: 0, bottom: 0,
-          pointerEvents: 'none',
-          opacity: 0.35,
-          zIndex: 0
-        }}
-      />
+    <section className="min-h-screen flex flex-col justify-center relative overflow-hidden bg-[#050505] pt-24 pb-16">
+      
+      {/* Interactive Ambient Geometry / Holographic Telemetry Rings in Background */}
+      <div className="absolute right-[-10%] sm:right-[2%] top-1/2 -translate-y-1/2 w-[340px] sm:w-[540px] h-[340px] sm:h-[540px] pointer-events-none opacity-20 z-0">
+        <svg viewBox="0 0 500 500" className="w-full h-full animate-[spin_60s_linear_infinite]">
+          <circle cx="250" cy="250" r="220" stroke="#D4AF37" strokeWidth="1" strokeDasharray="6 8" fill="none" opacity="0.4" />
+          <circle cx="250" cy="250" r="170" stroke="#FFE29A" strokeWidth="1" strokeDasharray="3 6" fill="none" opacity="0.6" />
+          <circle cx="250" cy="250" r="110" stroke="#D4AF37" strokeWidth="1.5" fill="none" opacity="0.3" />
+          <circle cx="250" cy="250" r="50" stroke="#D4AF37" strokeWidth="1" strokeDasharray="2 4" fill="none" opacity="0.5" />
+          <line x1="20" y1="250" x2="480" y2="250" stroke="#D4AF37" strokeWidth="0.8" opacity="0.25" />
+          <line x1="250" y1="20" x2="250" y2="480" stroke="#D4AF37" strokeWidth="0.8" opacity="0.25" />
+        </svg>
+      </div>
 
-      <div style={{
-        width: '100%',
-        maxWidth: '1240px',
-        margin: '0 auto',
-        padding: '0 1.5rem',
-        position: 'relative',
-        zIndex: 10
-      }}>
-        <div 
-          className="responsive-hero-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(12, 1fr)',
-            gap: '2.5rem',
-            alignItems: 'center'
-          }}
+      <div className="max-w-7xl mx-auto px-6 w-full relative z-10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-col items-start text-left"
         >
-          
-          {/* Left Column: Hero Overview */}
-          <div className="responsive-hero-left" style={{ gridColumn: 'span 7 / span 7', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            
-            {/* Status Ticker Badge */}
-            <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '6px 14px',
-                borderRadius: '8px',
-                backgroundColor: '#18181b',
-                border: '1px solid rgba(163, 230, 53, 0.4)',
-                color: '#a3e635',
-                fontSize: '12px',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontWeight: 600,
-                boxShadow: '0 0 15px rgba(163, 230, 53, 0.15)'
-              }}>
-                <Activity size={14} color="#a3e635" />
-                <span>SYS_STATUS: READY FOR FULL-STACK & AI ROLES</span>
-              </div>
-            </div>
+          {/* Top Status Line */}
+          <motion.div 
+            variants={fadeUp} 
+            className="flex items-center gap-2.5 font-mono text-xs tracking-[0.14em] text-gray/60 uppercase mb-6"
+          >
+            <span className="w-2 h-2 rounded-full bg-[#E5C76B] shadow-[0_0_8px_#E5C76B] animate-pulse" />
+            <span>AVAILABLE FOR FULL-TIME ROLES</span>
+            <span className="text-white/20 mx-1">/</span>
+            <span>COIMBATORE, INDIA</span>
+          </motion.div>
 
-            {/* Headline & Name */}
-            <div>
-              <h1 style={{
-                fontSize: '3rem',
-                fontWeight: 800,
-                color: '#ffffff',
-                lineHeight: 1.15,
-                margin: 0,
-                letterSpacing: '-0.02em'
-              }}>
-                Hi, I'm <span className="text-gradient">{PERSONAL_INFO.name}</span>
-              </h1>
-              
-              <div style={{
-                fontSize: '1.35rem',
-                fontWeight: 700,
-                color: '#e4e4e7',
-                marginTop: '4px'
-              }}>
-                {PERSONAL_INFO.title}
-              </div>
+          {/* Eyebrow */}
+          <motion.div 
+            variants={fadeUp}
+            className="font-mono text-xs tracking-[0.2em] uppercase text-gray/50 font-medium mb-3"
+          >
+            FULL STACK &amp; NODE.JS DEVELOPER
+          </motion.div>
 
-              {/* Typing Title Loop */}
-              <div style={{
-                height: '36px',
-                display: 'flex',
-                alignItems: 'center',
-                color: '#a3e635',
-                fontSize: '1.15rem',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontWeight: 600,
-                marginTop: '6px'
-              }}>
-                <span style={{ color: '#818cf8', marginRight: '8px' }}>&gt;</span>
-                <span>{typedTitle}</span>
-                <span className="cursor-blink"></span>
-              </div>
-            </div>
+          {/* Headline: CATHRIN R. (Left-aligned) */}
+          <motion.h1 
+            variants={fadeUp} 
+            className="font-heading text-6xl sm:text-7xl lg:text-[88px] font-extrabold tracking-tight leading-none text-white mb-6 flex flex-wrap items-baseline gap-3 sm:gap-4 text-left"
+          >
+            <span className="text-white">CATHRIN</span>
+            <span className="text-gold-gradient">R.</span>
+          </motion.h1>
 
-            {/* Career Objective Card */}
-            <div style={{
-              padding: '20px 24px',
-              borderRadius: '12px',
-              backgroundColor: '#141418',
-              border: '1px solid #27272a',
-              borderLeft: '4px solid #a3e635',
-              boxShadow: '0 10px 30px rgba(0,0,0,0.5)'
-            }}>
-              <h2 style={{
-                fontSize: '11px',
-                fontFamily: 'JetBrains Mono, monospace',
-                color: '#a3e635',
-                textTransform: 'uppercase',
-                letterSpacing: '1.5px',
-                marginBottom: '8px',
-                fontWeight: 700
-              }}>
-                CAREER OBJECTIVE
-              </h2>
-              <p style={{
-                color: '#d4d4d8',
-                fontSize: '0.95rem',
-                lineHeight: 1.65,
-                margin: 0
-              }}>
-                {PERSONAL_INFO.objective}
-              </p>
-            </div>
+          {/* Best-in-Field Description Text */}
+          <motion.p 
+            variants={fadeUp} 
+            className="font-sans text-base sm:text-lg text-gray/70 max-w-2xl leading-relaxed mb-8 text-left"
+          >
+            Architecting ultra-low latency <strong className="text-white font-medium">Node.js microservices</strong>, reactive <strong className="text-white font-medium">React.js frontends</strong>, and intelligent <strong className="text-[#FFE29A] font-medium">AI matching workflows</strong>. Engineering mission-critical architectures with high throughput, airtight security, and uncompromising visual precision.
+          </motion.p>
 
-            {/* Aligned Contact Chips */}
-            <div style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '10px',
-              padding: '10px 0',
-              borderTop: '1px solid #27272a',
-              borderBottom: '1px solid #27272a',
-              fontSize: '12px',
-              fontFamily: 'JetBrains Mono, monospace'
-            }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '6px 12px',
-                borderRadius: '6px',
-                backgroundColor: '#18181b',
-                border: '1px solid #27272a',
-                color: '#a3e635'
-              }}>
-                <MapPin size={14} color="#a3e635" />
-                <span>{PERSONAL_INFO.location}</span>
-              </div>
+          {/* Tech Row with Dividers */}
+          <motion.div 
+            variants={fadeUp}
+            className="flex flex-wrap items-center gap-2 sm:gap-3 font-mono text-[11px] sm:text-xs tracking-[0.12em] text-gray/60 mb-10"
+          >
+            {techStack.map((tech, idx) => (
+              <React.Fragment key={tech}>
+                <span className="hover:text-[#FFE29A] transition-colors">{tech}</span>
+                {idx < techStack.length - 1 && (
+                  <span className="text-white/15">|</span>
+                )}
+              </React.Fragment>
+            ))}
+          </motion.div>
 
-              <a 
-                href={`mailto:${PERSONAL_INFO.email}`} 
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  color: '#d4d4d8',
-                  textDecoration: 'none'
-                }}
-              >
-                <Mail size={14} color="#a3e635" />
-                <span>{PERSONAL_INFO.email}</span>
-              </a>
-
-              <a 
-                href={`tel:${PERSONAL_INFO.phone}`} 
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  color: '#d4d4d8',
-                  textDecoration: 'none'
-                }}
-              >
-                <Phone size={14} color="#a3e635" />
-                <span>{PERSONAL_INFO.phone}</span>
-              </a>
-
-              <a 
-                href={PERSONAL_INFO.github} 
-                target="_blank" 
-                rel="noreferrer" 
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  color: '#d4d4d8',
-                  textDecoration: 'none'
-                }}
-              >
-                <Github size={14} color="#a3e635" />
-                <span>Github</span>
-              </a>
-
-              <a 
-                href={PERSONAL_INFO.linkedin} 
-                target="_blank" 
-                rel="noreferrer" 
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '6px 12px',
-                  borderRadius: '6px',
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  color: '#d4d4d8',
-                  textDecoration: 'none'
-                }}
-              >
-                <Linkedin size={14} color="#a3e635" />
-                <span>LinkedIn</span>
-              </a>
-            </div>
-
-            {/* Action Buttons Row */}
-            <div className="hero-buttons-row" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '1rem', paddingTop: '4px' }}>
-              <a 
-                href="/CATHRIN_RESUME.pdf" 
-                download="CATHRIN_RESUME.pdf"
-                style={{
-                  height: '48px',
-                  padding: '0 24px',
-                  borderRadius: '10px',
-                  backgroundColor: '#a3e635',
-                  color: '#09090b',
-                  fontFamily: 'JetBrains Mono, monospace',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  textDecoration: 'none',
-                  boxShadow: '0 4px 20px rgba(163, 230, 53, 0.35)',
-                  cursor: 'pointer'
-                }}
-              >
-                <Download size={16} />
-                <span>Download Resume PDF</span>
-              </a>
-
-              <button
-                onClick={onOpenResume}
-                style={{
-                  height: '48px',
-                  padding: '0 22px',
-                  borderRadius: '10px',
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  color: '#fafafa',
-                  fontFamily: 'JetBrains Mono, monospace',
-                  fontWeight: 600,
-                  fontSize: '12px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  cursor: 'pointer'
-                }}
-              >
-                <FileText size={16} color="#a3e635" />
-                <span>View Online Resume</span>
-              </button>
-
-              <a 
-                href="#projects" 
-                style={{
-                  height: '48px',
-                  padding: '0 20px',
-                  borderRadius: '10px',
-                  backgroundColor: '#18181b',
-                  border: '1px solid #27272a',
-                  color: '#d4d4d8',
-                  fontFamily: 'JetBrains Mono, monospace',
-                  fontSize: '12px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px',
-                  textDecoration: 'none'
-                }}
-              >
-                <span>Explore Projects</span>
-                <ArrowRight size={16} />
-              </a>
-            </div>
-          </div>
-
-          {/* Right Column: NEW STYLE - ESSENTIAL IMPORTANT DETAILS CARD ALONE */}
-          <div className="responsive-hero-right" style={{ gridColumn: 'span 5 / span 5' }}>
-            <div 
-              style={{
-                padding: '28px',
-                borderRadius: '16px',
-                backgroundColor: '#141418',
-                border: '1px solid #27272a',
-                boxShadow: '0 20px 50px rgba(0,0,0,0.8)',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '16px'
-              }}
+          {/* 3 Action Buttons */}
+          <motion.div 
+            variants={fadeUp} 
+            className="flex flex-wrap items-center gap-3 sm:gap-4"
+          >
+            {/* Explore Projects Button */}
+            <a
+              href="#work"
+              onClick={() => soundFX.playClick()}
+              onMouseEnter={() => soundFX.playHover()}
+              className="px-6 py-3.5 rounded-lg border border-[#D4AF37]/50 bg-[#090909]/40 text-[#D4AF37] font-mono text-xs tracking-[0.14em] uppercase font-semibold hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.25)] transition-all flex items-center gap-3"
             >
-              
-              {/* Card Header */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #27272a', paddingBottom: '14px' }}>
-                <div style={{ fontSize: '12px', fontWeight: 800, color: '#ffffff', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '1px' }}>
-                  KEY HIGHLIGHTS
-                </div>
-                <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#a3e635', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Sparkles size={12} />
-                  <span>VERIFIED PROFILE</span>
-                </div>
-              </div>
+              <span>EXPLORE PROJECTS</span>
+              <ArrowRight size={14} className="text-[#D4AF37]" />
+            </a>
 
-              {/* Detail 1: Internship */}
-              <div style={{ padding: '14px 16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', borderLeft: '3px solid #a3e635', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <Briefcase size={18} color="#a3e635" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase' }}>Internship</div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginTop: '2px' }}>Junior Web Developer</div>
-                  <div style={{ fontSize: '11px', color: '#a3e635', fontFamily: 'JetBrains Mono, monospace' }}>Nanlogical Consultancy Services, Chennai</div>
-                </div>
-              </div>
+            {/* Direct Download Resume Button */}
+            <a
+              href="/CATHRIN_RESUME.pdf"
+              download="CATHRIN_RESUME.pdf"
+              onClick={() => soundFX.playClick()}
+              onMouseEnter={() => soundFX.playHover()}
+              className="px-6 py-3.5 rounded-lg border border-white/10 bg-[#090909]/60 text-white font-mono text-xs tracking-[0.14em] uppercase font-semibold hover:border-white/30 hover:bg-white/5 transition-all flex items-center gap-2.5"
+            >
+              <Download size={14} className="text-gray/70" />
+              <span>DOWNLOAD RESUME</span>
+            </a>
 
-              {/* Detail 2: Education & CGPA */}
-              <div style={{ padding: '14px 16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', borderLeft: '3px solid #fbbf24', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <GraduationCap size={18} color="#fbbf24" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase' }}>Education</div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginTop: '2px' }}>B.E Computer Science & Engineering</div>
-                  <div style={{ fontSize: '11px', color: '#fbbf24', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700 }}>8.6 / 10 CGPA • Sri Krishna College of Tech</div>
-                </div>
-              </div>
-
-              {/* Detail 3: Engineered Projects */}
-              <div style={{ padding: '14px 16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', borderLeft: '3px solid #6366f1', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <Layers size={18} color="#818cf8" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase' }}>Key Projects</div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginTop: '2px' }}>4 Engineered Systems</div>
-                  <div style={{ fontSize: '11px', color: '#a5b4fc', fontFamily: 'JetBrains Mono, monospace' }}>React, Node, Spring Boot, FastAPI, NLP</div>
-                </div>
-              </div>
-
-              {/* Detail 4: Certifications */}
-              <div style={{ padding: '14px 16px', borderRadius: '10px', backgroundColor: '#18181b', border: '1px solid #27272a', borderLeft: '3px solid #10b981', display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                <Award size={18} color="#34d399" style={{ flexShrink: 0, marginTop: '2px' }} />
-                <div>
-                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa', textTransform: 'uppercase' }}>Certifications</div>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginTop: '2px' }}>6 Verified Certifications</div>
-                  <div style={{ fontSize: '11px', color: '#34d399', fontFamily: 'JetBrains Mono, monospace' }}>Cisco, NPTEL Elite+Silver, TATA, Infosys</div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
+            {/* CLI HUD Button */}
+            {onOpenTerminal && (
+              <button
+                onClick={() => { soundFX.playClick(); onOpenTerminal(); }}
+                onMouseEnter={() => soundFX.playHover()}
+                className="px-6 py-3.5 rounded-lg border border-white/10 bg-[#090909]/60 text-white/70 font-mono text-xs tracking-[0.14em] uppercase font-semibold hover:border-white/30 hover:text-white hover:bg-white/5 transition-all flex items-center gap-2.5"
+              >
+                <Terminal size={14} className="text-gray/70" />
+                <span>CLI HUD (CTRL+K)</span>
+              </button>
+            )}
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;

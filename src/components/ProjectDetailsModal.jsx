@@ -1,127 +1,88 @@
 import React from 'react';
-import { X, Sparkles, Server, CheckCircle2, ArrowRight, Code, Database, Terminal, Shield } from 'lucide-react';
-import { soundFX } from '../utils/audio';
+import { X, CheckCircle2 } from 'lucide-react';
+import { motion } from 'framer-motion';
+import soundFX from '../utils/audio';
 
-export default function ProjectDetailsModal({ project, onClose, onLaunchAiDemo }) {
+export default function ProjectDetailsModal({ project, onClose }) {
   if (!project) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-card bg-[#0b0f19] border-cyan-500/40 w-full max-w-3xl max-h-[85vh] overflow-y-auto rounded-2xl shadow-[0_0_50px_rgba(0,242,254,0.2)]">
-        
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[10001] flex items-center justify-center p-4 bg-black/85 backdrop-blur-2xl"
+    >
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-2xl max-h-[88vh] overflow-y-auto bg-[#0A0A0A] border border-[#D4AF37]/25 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.9),0_0_30px_rgba(212,175,55,0.12)] relative"
+      >
         {/* Modal Header */}
-        <div className="p-6 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-[#0b0f19]/95 z-10">
+        <div className="p-5 sm:p-6 bg-[#0E0E0E] border-b border-white/5 flex items-center justify-between sticky top-0 z-10">
           <div>
-            <span className="tech-pill text-[10px] mb-1" style={{ borderColor: project.accentColor, color: project.accentColor }}>
+            <span className="text-[10px] uppercase tracking-[0.14em] font-mono px-2.5 py-1 rounded-full border border-[#D4AF37]/30 text-[#D4AF37] bg-[#D4AF37]/5 inline-block mb-2">
               {project.badge}
             </span>
-            <h3 className="text-2xl font-bold text-white font-mono mt-1">
+            <h3 className="text-xl sm:text-2xl font-bold text-white font-display">
               {project.title}
             </h3>
           </div>
           <button
             onClick={() => { soundFX.playClick(); onClose(); }}
-            className="p-2 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800 cursor-pointer"
+            className="p-2 rounded-lg bg-white/5 border border-white/10 text-gray/70 hover:text-white hover:border-[#D4AF37]/40 transition-colors"
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
         {/* Modal Content */}
-        <div className="p-6 space-y-8">
-          
-          {/* Overview */}
+        <div className="p-6 flex flex-col gap-6">
+          {/* System Overview */}
           <div>
-            <h4 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-2">
-              System Overview & Objectives
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.14em] font-semibold mb-2">
+              SYSTEM OVERVIEW & PURPOSE
             </h4>
-            <p className="text-slate-300 text-sm leading-relaxed">
+            <p className="text-sm text-gray/80 leading-relaxed font-sans">
               {project.shortDesc}
             </p>
           </div>
 
-          {/* Architecture Flow Breakdown */}
+          {/* Tech Stack */}
           <div>
-            <h4 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-3">
-              Architectural Pipeline Flow
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.14em] font-semibold mb-2.5">
+              TECHNOLOGY STACK INTEGRATION
             </h4>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {project.architecture.map((arch, i) => (
-                <div key={i} className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
-                  <div className="text-xs font-mono font-bold text-cyan-300 mb-2">
-                    {arch.step}
-                  </div>
-                  <div className="text-xs text-slate-400">
-                    {arch.desc}
-                  </div>
-                </div>
+            <div className="flex flex-wrap gap-2">
+              {project.tech.map((t) => (
+                <span 
+                  key={t} 
+                  className="text-xs font-mono px-3 py-1 rounded-full border border-white/10 bg-white/5 text-gray/70"
+                >
+                  {t}
+                </span>
               ))}
             </div>
           </div>
 
-          {/* Full Bullet Achievements */}
+          {/* Highlights & Bullets */}
           <div>
-            <h4 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-3">
-              Implementation Highlights & Deliverables
+            <h4 className="text-xs font-mono text-[#D4AF37] uppercase tracking-[0.14em] font-semibold mb-3">
+              KEY ARCHITECTURAL HIGHLIGHTS
             </h4>
-            <div className="space-y-3">
-              {project.highlights.map((hl, i) => (
-                <div key={i} className="flex items-start gap-3 text-xs text-slate-300 p-3 rounded-lg bg-slate-900/50 border border-slate-800/80">
-                  <CheckCircle2 size={16} className="text-emerald-400 shrink-0 mt-0.5" />
-                  <span className="leading-relaxed">{hl}</span>
+            <div className="flex flex-col gap-2.5">
+              {project.bullets.map((bullet, idx) => (
+                <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-gray/80 leading-relaxed">
+                  <CheckCircle2 size={16} className="text-[#D4AF37] shrink-0 mt-0.5" />
+                  <span>{bullet}</span>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Exposed REST Endpoints / Specs */}
-          <div>
-            <h4 className="text-xs font-mono text-cyan-400 uppercase tracking-wider mb-3">
-              Exposed API Specs & Endpoint Interfaces
-            </h4>
-            <div className="space-y-2 font-mono text-xs">
-              {project.apiEndpoints.map((api, i) => (
-                <div key={i} className="p-3 rounded-xl bg-slate-950 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div className="flex items-center gap-3">
-                    <span className={`px-2 py-0.5 rounded font-bold text-[10px] ${
-                      api.method === 'POST' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
-                      api.method === 'GET' ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30' :
-                      'bg-purple-500/20 text-purple-400 border border-purple-500/30'
-                    }`}>
-                      {api.method}
-                    </span>
-                    <span className="text-slate-200">{api.path}</span>
-                  </div>
-                  <span className="text-slate-500 text-[11px]">{api.desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Modal Action Footer */}
-          <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
-            {project.id === 'ai-nurse-matching' && (
-              <button
-                onClick={() => {
-                  onClose();
-                  onLaunchAiDemo();
-                }}
-                className="btn-primary py-2 px-4 text-xs font-mono"
-              >
-                <Sparkles size={14} />
-                <span>Launch Live AI Sandbox</span>
-              </button>
-            )}
-            <button
-              onClick={() => { soundFX.playClick(); onClose(); }}
-              className="btn-secondary py-2 px-4 text-xs font-mono"
-            >
-              Close System Spec
-            </button>
-          </div>
-
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 }

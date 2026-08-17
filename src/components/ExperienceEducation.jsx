@@ -1,100 +1,85 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { INTERNSHIPS, EDUCATION_AND_CERTIFICATIONS } from '../data/portfolioData';
-import { Briefcase, GraduationCap, Calendar, MapPin, CheckCircle2 } from 'lucide-react';
 
-export default function ExperienceEducation() {
+const ExperienceEducation = () => {
   return (
-    <section id="internships" style={{ padding: '60px 0', borderTop: '1px solid #27272a' }}>
-      <div style={{ width: '100%', maxWidth: '1240px', margin: '0 auto', padding: '0 2rem' }}>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: '3rem' }}>
-          
-          {/* Left Column: INTERNSHIPS */}
-          <div style={{ gridColumn: 'span 6 / span 6', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '6px 14px',
-                borderRadius: '6px',
-                backgroundColor: '#18181b',
-                border: '1px solid #27272a',
-                color: '#a3e635',
-                fontSize: '12px',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontWeight: 700,
-                letterSpacing: '1px',
-                marginBottom: '8px'
-              }}>
-                <Briefcase size={14} color="#a3e635" />
-                <span>INTERNSHIPS</span>
-              </div>
-              <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
-                Work <span className="text-gradient">Experience</span>
-              </h2>
-            </div>
+    <section id="experience" className="py-24 px-6 relative z-10">
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="font-mono text-xs tracking-[0.2em] uppercase text-[#D4AF37]/70 mb-3">
+            05 // EXPERIENCE
+          </p>
+          <h2 className="font-heading text-3xl sm:text-4xl font-bold text-white mb-10">
+            Experience & Credentials
+          </h2>
+        </motion.div>
 
-            {INTERNSHIPS.map((item, idx) => (
-              <div key={idx} style={{ padding: '24px', borderRadius: '12px', backgroundColor: '#141418', border: '1px solid #27272a', borderLeft: '4px solid #a3e635', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div>
-                  <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#ffffff', margin: 0 }}>{item.role}</h3>
-                  <div style={{ color: '#a3e635', fontFamily: 'JetBrains Mono, monospace', fontSize: '13px', marginTop: '4px', fontWeight: 600 }}>{item.company}</div>
-                </div>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: '#a1a1aa' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Calendar size={13} color="#a3e635" />
-                    <span>{item.period}</span>
+        <div className="grid lg:grid-cols-2 gap-8">
+          {/* Work History */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="rounded-2xl border border-white/5 bg-[#0A0A0A]/80 p-6 backdrop-blur-xl relative overflow-hidden group hover:border-[#D4AF37]/20 transition-all duration-300"
+          >
+            <div className="absolute inset-0 bg-gradient-to-br from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <h3 className="text-[#D4AF37] font-mono text-xs tracking-[0.14em] uppercase mb-6">
+                WORK HISTORY
+              </h3>
+              <div className="space-y-8">
+                {INTERNSHIPS.map((internship, index) => (
+                  <div key={index} className="relative pl-4 border-l border-white/10 group-hover:border-[#D4AF37]/30 transition-colors">
+                    <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-[#D4AF37]/50 group-hover:bg-[#D4AF37] transition-colors"></div>
+                    <h4 className="font-display text-lg font-semibold text-white mb-1">{internship.role}</h4>
+                    <div className="flex flex-wrap items-center gap-2 mb-2">
+                      <span className="text-[#D4AF37] font-mono text-sm">{internship.company}</span>
+                      <span className="text-[#a0a0a0]/50 text-xs">—</span>
+                      <span className="text-[#a0a0a0]/50 text-xs">{internship.period}</span>
+                    </div>
+                    {internship.description && (
+                      <p className="text-[#a0a0a0]/70 text-sm leading-relaxed">{internship.description}</p>
+                    )}
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <MapPin size={13} color="#a3e635" />
-                    <span>{item.location}</span>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Credentials */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="rounded-2xl border border-white/5 bg-[#0A0A0A]/80 p-6 backdrop-blur-xl relative overflow-hidden group hover:border-[#D4AF37]/20 transition-all duration-300"
+          >
+            <div className="absolute inset-0 bg-gradient-to-bl from-[#D4AF37]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="relative z-10">
+              <h3 className="text-[#D4AF37] font-mono text-xs tracking-[0.14em] uppercase mb-6">
+                DEGREES & CERTIFICATIONS
+              </h3>
+              <div className="space-y-4">
+                {EDUCATION_AND_CERTIFICATIONS.map((item, index) => (
+                  <div key={index} className="flex items-start gap-3">
+                    <span className="text-[#D4AF37] mt-1">—</span>
+                    <p className="text-sm text-[#a0a0a0]/70 leading-relaxed">{item}</p>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-
-          {/* Right Column: EDUCATION AND CERTIFICATIONS */}
-          <div id="education" style={{ gridColumn: 'span 6 / span 6', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-            <div>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                padding: '6px 14px',
-                borderRadius: '6px',
-                backgroundColor: '#18181b',
-                border: '1px solid #27272a',
-                color: '#a3e635',
-                fontSize: '12px',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontWeight: 700,
-                letterSpacing: '1px',
-                marginBottom: '8px'
-              }}>
-                <GraduationCap size={14} color="#a3e635" />
-                <span>EDUCATION AND CERTIFICATIONS</span>
-              </div>
-              <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
-                Degrees & <span className="text-gradient">Credentials</span>
-              </h2>
             </div>
-
-            <div style={{ padding: '24px', borderRadius: '12px', backgroundColor: '#141418', border: '1px solid #27272a', display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {EDUCATION_AND_CERTIFICATIONS.map((item, idx) => (
-                <div key={idx} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', fontSize: '13px', color: '#e4e4e7', lineHeight: 1.6 }}>
-                  <CheckCircle2 size={16} color="#a3e635" style={{ flexShrink: 0, marginTop: '3px' }} />
-                  <span>{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
+          </motion.div>
         </div>
-
       </div>
     </section>
   );
-}
+};
+
+export default ExperienceEducation;

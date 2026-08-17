@@ -1,100 +1,132 @@
 import React, { useState, useEffect } from 'react';
+import Lenis from 'lenis';
+import { AnimatePresence } from 'framer-motion';
+
+import CustomCursor from './components/CustomCursor';
+import ScanlineOverlay from './components/ScanlineOverlay';
+import InteractiveBackground from './components/InteractiveBackground';
+import PageTransition from './components/PageTransition';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import SkillsMatrix from './components/SkillsMatrix';
 import ProjectsSection from './components/ProjectsSection';
+import AboutSection from './components/AboutSection';
+import SkillsMatrix from './components/SkillsMatrix';
 import ExperienceEducation from './components/ExperienceEducation';
 import ContactSection from './components/ContactSection';
 import Footer from './components/Footer';
-import ResumeModal from './components/ResumeModal';
 import TerminalModal from './components/TerminalModal';
 import AiNurseDemoModal from './components/AiNurseDemoModal';
 import ProjectDetailsModal from './components/ProjectDetailsModal';
 
 export default function App() {
-  const [resumeOpen, setResumeOpen] = useState(false);
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [aiDemoOpen, setAiDemoOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
-  const [soundEnabled, setSoundEnabled] = useState(false);
 
-  // Keyboard shortcut: Ctrl+K or Cmd+K to launch CLI HUD
+  /* ── Lenis Smooth Scroll ── */
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+
+    return () => lenis.destroy();
+  }, []);
+
+  /* ── Ctrl+K → CLI HUD ── */
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        setTerminalOpen(prev => !prev);
+        setTerminalOpen((prev) => !prev);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  return (
-    <div id="top" style={{ minHeight: '100vh', backgroundColor: '#09090b', color: '#fafafa', fontFamily: 'Plus Jakarta Sans, sans-serif', position: 'relative' }}>
-      
-      {/* Background Mesh Grid */}
-      <div className="bg-grid-mesh"></div>
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = '/CATHRIN_RESUME.pdf';
+    link.download = 'CATHRIN_RESUME.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-      {/* Responsive Navbar */}
+  return (
+    <>
+      {/* Custom gold cursor (desktop only) */}
+      <CustomCursor />
+
+      {/* GPU-Accelerated Interactive Canvas Background */}
+      <InteractiveBackground />
+
+      {/* Scanlines overlay */}
+      <ScanlineOverlay />
+
+      {/* Page entrance transition */}
+      <PageTransition />
+
+      {/* Navbar */}
       <Navbar
         onOpenTerminal={() => setTerminalOpen(true)}
-        onOpenResume={() => setResumeOpen(true)}
-        soundEnabled={soundEnabled}
-        setSoundEnabled={setSoundEnabled}
       />
 
-      {/* Classy High-Tech Hero Section */}
-      <Hero
-        onOpenResume={() => setResumeOpen(true)}
-        onOpenTerminal={() => setTerminalOpen(true)}
-        onOpenAiDemo={() => setAiDemoOpen(true)}
-      />
+      {/* Main content */}
+      <main className="relative z-10">
+        <Hero
+          onOpenTerminal={() => setTerminalOpen(true)}
+        />
 
-      {/* Internships, Education & Certifications */}
-      <ExperienceEducation />
+        <ProjectsSection
+          onOpenAiDemo={() => setAiDemoOpen(true)}
+          onSelectProject={(project) => setSelectedProject(project)}
+        />
 
-      {/* Technical Skills Matrix */}
-      <SkillsMatrix />
+        <AboutSection />
+        <SkillsMatrix />
+        <ExperienceEducation />
+        <ContactSection />
+      </main>
 
-      {/* Projects Showcase & AI Matcher Sandbox */}
-      <ProjectsSection 
-        onOpenAiDemo={() => setAiDemoOpen(true)}
-        onSelectProject={(project) => setSelectedProject(project)}
-      />
-
-      {/* Direct Contact Section */}
-      <ContactSection />
-
-      {/* Footer */}
       <Footer />
 
-      {/* Interactive Cyber Resume Modal */}
-      <ResumeModal
-        isOpen={resumeOpen}
-        onClose={() => setResumeOpen(false)}
-      />
+      {/* ── Modals ── */}
+      <AnimatePresence>
+        {terminalOpen && (
+          <TerminalModal
+            isOpen={terminalOpen}
+            onClose={() => setTerminalOpen(false)}
+            onOpenResume={() => { setTerminalOpen(false); handleDownloadResume(); }}
+            onOpenAiDemo={() => { setTerminalOpen(false); setAiDemoOpen(true); }}
+          />
+        )}
+      </AnimatePresence>
 
-      {/* Interactive CLI HUD Terminal Modal */}
-      <TerminalModal
-        isOpen={terminalOpen}
-        onClose={() => setTerminalOpen(false)}
-        onOpenResume={() => { setTerminalOpen(false); setResumeOpen(true); }}
-        onOpenAiDemo={() => { setTerminalOpen(false); setAiDemoOpen(true); }}
-      />
+      <AnimatePresence>
+        {aiDemoOpen && (
+          <AiNurseDemoModal isOpen={aiDemoOpen} onClose={() => setAiDemoOpen(false)} />
+        )}
+      </AnimatePresence>
 
-      {/* Interactive Live AI Nurse Cosine Matcher Demo Modal */}
-      <AiNurseDemoModal
-        isOpen={aiDemoOpen}
-        onClose={() => setAiDemoOpen(false)}
-      />
-
-      {/* Project System Architecture Breakdown Modal */}
-      <ProjectDetailsModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
-
-    </div>
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectDetailsModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 }

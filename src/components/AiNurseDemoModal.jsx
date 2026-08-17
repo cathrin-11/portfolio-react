@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Sparkles, Brain, MapPin, MessageSquare, Send, CheckCircle, RefreshCw, Sliders, ShieldCheck } from 'lucide-react';
+import { X, Sparkles, Brain, MessageSquare, Send, CheckCircle } from 'lucide-react';
 import { soundFX } from '../utils/audio';
 
 export default function AiNurseDemoModal({ isOpen, onClose }) {
@@ -50,7 +50,6 @@ export default function AiNurseDemoModal({ isOpen, onClose }) {
     setMatchResult(null);
 
     setTimeout(() => {
-      // Simulate cosine similarity calculation output
       const matched = sampleNurses[0];
       setMatchResult({
         primaryNurse: matched,
@@ -61,78 +60,113 @@ export default function AiNurseDemoModal({ isOpen, onClose }) {
       });
       setIsCalculating(false);
       soundFX.playBeep();
-    }, 1200);
+    }, 900);
   };
 
-  const handleSendChat = (e) => {
+  const handleSendMessage = (e) => {
     e.preventDefault();
     if (!inputMsg.trim()) return;
+
     soundFX.playTerminalKey();
-    const userMessage = inputMsg;
-    setChatMessages(prev => [...prev, { sender: 'Patient', text: userMessage }]);
+    const newMsgs = [...chatMessages, { sender: 'Patient', text: inputMsg }];
+    setChatMessages(newMsgs);
     setInputMsg('');
 
     setTimeout(() => {
-      soundFX.playClick();
       setChatMessages(prev => [
         ...prev,
-        { sender: 'Nurse', text: `Understood! I will bring the requested equipment and follow the physician protocol for ${userMessage}.` }
+        { sender: 'Nurse', text: 'Thank you for providing that detail! I will make sure we have all necessary monitoring equipment ready.' }
       ]);
-    }, 1000);
+      soundFX.playBeep();
+    }, 1200);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-card bg-[#0b0f19] border-cyan-500/40 w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-[0_0_50px_rgba(0,242,254,0.2)]">
-        
+    <div style={{
+      position: 'fixed',
+      top: 0, left: 0, right: 0, bottom: 0,
+      zIndex: 2000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem',
+      backgroundColor: 'rgba(5, 5, 5, 0.9)',
+      backdropFilter: 'blur(16px)'
+    }}>
+      <div 
+        className="gold-card"
+        style={{
+          width: '100%',
+          maxWidth: '920px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          backgroundColor: '#0B0B0B',
+          border: '1px solid #2A2414',
+          borderRadius: '16px',
+          boxShadow: '0 25px 60px rgba(0, 0, 0, 0.95), 0 0 30px rgba(212, 175, 55, 0.15)'
+        }}
+      >
         {/* Modal Header */}
-        <div className="p-6 border-b border-slate-800 flex items-center justify-between sticky top-0 bg-[#0b0f19]/95 z-10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 flex items-center justify-center">
-              <Brain size={20} />
+        <div style={{
+          padding: '20px 24px',
+          backgroundColor: '#111111',
+          borderBottom: '1px solid #1C1C1C',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          position: 'sticky',
+          top: 0,
+          zIndex: 10
+        }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: '#D4AF37', fontWeight: 700 }}>
+              <Brain size={15} color="#D4AF37" />
+              <span>AI CLINICAL-FIT COSINE MATCHER SANDBOX</span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="text-xl font-bold text-white font-mono">
-                  AI Clinical-Fit Matching Engine
-                </h3>
-                <span className="tech-pill text-[10px]">NLP + Haversine GIS</span>
-              </div>
-              <p className="text-xs text-slate-400">
-                MiniLM Cosine Similarity Vector Sandbox (Interactive Simulation)
-              </p>
-            </div>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#F5F3EE', margin: 0, marginTop: '4px' }}>
+              MiniLM Embeddings & Haversine GIS Allocation Engine
+            </h3>
           </div>
+
           <button
             onClick={() => { soundFX.playClick(); onClose(); }}
-            className="p-2 rounded-lg bg-slate-900 text-slate-400 hover:text-white border border-slate-800"
+            style={{
+              padding: '8px',
+              borderRadius: '8px',
+              backgroundColor: '#0B0B0B',
+              border: '1px solid #1C1C1C',
+              color: '#A8A39A',
+              cursor: 'pointer'
+            }}
           >
-            <X size={20} />
+            <X size={18} />
           </button>
         </div>
 
-        {/* Modal Body Grid */}
-        <div className="p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Modal Content */}
+        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
-          {/* Left Column: Sandbox Inputs */}
-          <div className="lg:col-span-6 space-y-6">
-            <div className="space-y-4">
-              <label className="block text-xs font-mono text-cyan-400 uppercase tracking-wider">
-                1. Patient Requirement Vector Input (Natural Language)
+          {/* Controls Input */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+            
+            {/* Needs input */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <label style={{ fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: '#A8A39A', textTransform: 'uppercase' }}>
+                Patient Clinical Requirements (Text Prompt)
               </label>
-              <textarea
+              <input
+                type="text"
                 value={patientNeeds}
                 onChange={(e) => setPatientNeeds(e.target.value)}
-                rows={3}
-                className="w-full p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-200 text-xs font-mono focus:border-cyan-400 outline-none"
-                placeholder="Describe medical needs, required certifications, acuity..."
+                style={{ width: '100%', padding: '12px 14px', borderRadius: '6px', backgroundColor: '#050505', border: '1px solid #1C1C1C', color: '#F5F3EE', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
               />
             </div>
 
-            <div className="space-y-2">
-              <div className="flex justify-between text-xs font-mono">
-                <span className="text-slate-400">Haversine Max Radius (GIS Constraint)</span>
-                <span className="text-emerald-400 font-bold">{distanceKm} km</span>
+            {/* Radius Slider */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', fontFamily: 'JetBrains Mono, monospace', color: '#A8A39A' }}>
+                <span>Haversine Max Radius</span>
+                <span style={{ color: '#D4AF37', fontWeight: 700 }}>{distanceKm} km</span>
               </div>
               <input
                 type="range"
@@ -141,119 +175,82 @@ export default function AiNurseDemoModal({ isOpen, onClose }) {
                 step="0.5"
                 value={distanceKm}
                 onChange={(e) => setDistanceKm(parseFloat(e.target.value))}
-                className="w-full accent-cyan-400 cursor-pointer"
+                style={{ width: '100%', accentColor: '#D4AF37' }}
               />
             </div>
 
-            {/* Run Button */}
-            <button
-              onClick={handleRunMatch}
-              disabled={isCalculating}
-              className="btn-primary w-full font-mono text-xs py-3 flex items-center justify-center gap-2"
-            >
-              {isCalculating ? (
-                <>
-                  <RefreshCw size={16} className="animate-spin" />
-                  <span>Computing MiniLM Embeddings...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles size={16} />
-                  <span>Execute Vector Cosine & Haversine Match</span>
-                </>
-              )}
-            </button>
-
-            {/* Candidate List */}
-            <div className="space-y-3 pt-4 border-t border-slate-800">
-              <span className="text-xs font-mono text-slate-400 uppercase">Available Nurse Pool</span>
-              {sampleNurses.map((nurse) => (
-                <div key={nurse.id} className="p-3 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-xs font-mono">
-                  <div>
-                    <div className="text-slate-200 font-bold">{nurse.name}</div>
-                    <div className="text-[11px] text-slate-400">{nurse.skills}</div>
-                  </div>
-                  <div className="text-right shrink-0 ml-2">
-                    <div className="text-cyan-400 font-bold">{(nurse.vectorScore * 100).toFixed(1)}% match</div>
-                    <div className="text-[10px] text-slate-500">{nurse.distanceKm} km away</div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* Right Column: Results & Pre-confirm Chat Simulator */}
-          <div className="lg:col-span-6 space-y-6">
-            
-            {/* Realtime Matching Diagnostic Output */}
-            <div className="terminal-window p-4 space-y-3 font-mono text-xs">
-              <div className="flex items-center justify-between text-slate-400 border-b border-slate-800 pb-2">
-                <span>SYSTEM LOG: /api/v1/match/nurse</span>
-                <span className="text-emerald-400 text-[10px]">HEALTHY</span>
-              </div>
+          <button
+            onClick={handleRunMatch}
+            disabled={isCalculating}
+            className="btn-gold-primary"
+            style={{ width: '100%', height: '44px', fontSize: '12px' }}
+          >
+            {isCalculating ? (
+              <span>Computing Cosine Vector Similarities...</span>
+            ) : (
+              <>
+                <Sparkles size={16} />
+                <span>RUN AI COSINE VECTOR & GIS MATCH</span>
+              </>
+            )}
+          </button>
+
+          {/* Results Display */}
+          {matchResult && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', paddingTop: '16px', borderTop: '1px solid #1C1C1C' }}>
               
-              {isCalculating ? (
-                <div className="py-6 text-center text-cyan-400 animate-pulse">
-                  &gt; [NLP Pipeline] Generating 384-dimensional MiniLM embeddings...
-                </div>
-              ) : matchResult ? (
-                <div className="space-y-2 text-slate-300">
-                  <div className="text-emerald-400 font-bold flex items-center gap-1.5">
-                    <CheckCircle size={14} /> STATUS: {matchResult.status} ({matchResult.executionTimeMs}ms)
+              <div style={{ padding: '20px', borderRadius: '10px', backgroundColor: '#111111', border: '1px solid #2A2414', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '16px' }}>
+                <div>
+                  <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#D4AF37', fontWeight: 700 }}>
+                    {matchResult.status} • COSINE SIMILARITY: {matchResult.primaryNurse.vectorScore}
                   </div>
-                  <div>Nurse Assigned: <span className="text-cyan-300 font-bold">{matchResult.primaryNurse.name}</span></div>
-                  <div>Semantic Cosine Score: <span className="text-amber-400 font-bold">{(matchResult.primaryNurse.vectorScore * 100).toFixed(1)}%</span></div>
-                  <div>Haversine Distance: <span className="text-indigo-300">{matchResult.primaryNurse.distanceKm} km</span></div>
+                  <h4 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#F5F3EE', margin: '4px 0' }}>
+                    {matchResult.primaryNurse.name}
+                  </h4>
+                  <div style={{ fontSize: '12px', color: '#A8A39A' }}>
+                    {matchResult.primaryNurse.skills}
+                  </div>
                 </div>
-              ) : (
-                <div className="py-4 text-slate-500 text-center">
-                  Click 'Execute Vector Cosine & Haversine Match' to run live AI nurse allocation logic.
-                </div>
-              )}
-            </div>
 
-            {/* Pre-confirmation Interactive Consultation Chat */}
-            <div className="p-4 rounded-xl bg-slate-900/90 border border-slate-800 flex flex-col h-64">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800 text-xs font-mono">
-                <div className="flex items-center gap-2 text-cyan-400">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: '#F5D76E', backgroundColor: '#050505', padding: '6px 12px', borderRadius: '6px', border: '1px solid #2A2414' }}>
+                  <CheckCircle size={14} color="#D4AF37" />
+                  <span>{matchResult.primaryNurse.distanceKm} km away (GIS Verified)</span>
+                </div>
+              </div>
+
+              {/* Chat Simulator */}
+              <div style={{ borderRadius: '10px', backgroundColor: '#111111', border: '1px solid #1C1C1C', overflow: 'hidden' }}>
+                <div style={{ padding: '12px 16px', backgroundColor: '#050505', borderBottom: '1px solid #1C1C1C', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', color: '#D4AF37', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <MessageSquare size={14} />
-                  <span>Pre-Confirmation Nurse Chat Channel</span>
+                  <span>PRE-CONFIRMATION CONSULTATION CHAT</span>
                 </div>
-                <span className="text-[10px] text-emerald-400">WEBSOCKET OPEN</span>
+
+                <div style={{ padding: '16px', maxHeight: '180px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '10px', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace' }}>
+                  {chatMessages.map((msg, i) => (
+                    <div key={i} style={{ color: msg.sender === 'System' ? '#D4AF37' : msg.sender === 'Nurse' ? '#F5F3EE' : '#A8A39A' }}>
+                      <span style={{ fontWeight: 700, color: '#D4AF37' }}>[{msg.sender}]:</span> {msg.text}
+                    </div>
+                  ))}
+                </div>
+
+                <form onSubmit={handleSendMessage} style={{ display: 'flex', borderTop: '1px solid #1C1C1C', backgroundColor: '#050505' }}>
+                  <input
+                    type="text"
+                    value={inputMsg}
+                    onChange={(e) => setInputMsg(e.target.value)}
+                    placeholder="Type message to matched nurse..."
+                    style={{ flex: 1, padding: '12px 16px', backgroundColor: 'transparent', border: 'none', color: '#F5F3EE', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', outline: 'none' }}
+                  />
+                  <button type="submit" style={{ padding: '0 20px', color: '#D4AF37', border: 'none', background: 'none', cursor: 'pointer' }}>
+                    <Send size={16} />
+                  </button>
+                </form>
               </div>
 
-              {/* Chat Stream */}
-              <div className="flex-1 overflow-y-auto py-3 space-y-2 text-xs font-mono">
-                {chatMessages.map((msg, i) => (
-                  <div key={i} className={`p-2.5 rounded-lg max-w-[85%] ${
-                    msg.sender === 'Patient' 
-                      ? 'ml-auto bg-cyan-500/20 text-cyan-200 border border-cyan-500/30'
-                      : msg.sender === 'System'
-                      ? 'mx-auto bg-slate-800 text-slate-400 text-[10px] text-center'
-                      : 'bg-slate-800 text-slate-200 border border-slate-700'
-                  }`}>
-                    {msg.sender !== 'System' && <div className="text-[10px] text-slate-400 mb-0.5">{msg.sender}</div>}
-                    <div>{msg.text}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Send Form */}
-              <form onSubmit={handleSendChat} className="pt-2 flex gap-2 border-t border-slate-800">
-                <input
-                  type="text"
-                  value={inputMsg}
-                  onChange={(e) => setInputMsg(e.target.value)}
-                  placeholder="Ask nurse about equipment or schedule..."
-                  className="flex-1 px-3 py-1.5 rounded-lg bg-slate-950 border border-slate-800 text-slate-200 text-xs font-mono focus:border-cyan-400 outline-none"
-                />
-                <button type="submit" className="p-2 rounded-lg bg-cyan-500 text-slate-950 hover:bg-cyan-400 font-bold">
-                  <Send size={14} />
-                </button>
-              </form>
             </div>
-
-          </div>
+          )}
 
         </div>
       </div>

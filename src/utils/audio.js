@@ -1,4 +1,4 @@
-// Silent Audio System (Sound Disabled)
+// Audio Utility System
 class SoundEffects {
   constructor() {
     this.soundEnabled = false;
@@ -10,6 +10,9 @@ class SoundEffects {
   playClick() {}
   playBeep() {}
   playSuccess() {}
+  playHover() {}
+  playGlitch() {}
 }
 
 export const soundFX = new SoundEffects();
+export default soundFX;

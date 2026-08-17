@@ -1,266 +1,130 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Menu, X, Terminal } from 'lucide-react';
-import { PERSONAL_INFO } from '../data/portfolioData';
+import { motion, AnimatePresence } from 'framer-motion';
+import soundFX from '../utils/audio';
+import { Terminal, Menu, X } from 'lucide-react';
 
-export default function Navbar({ onOpenTerminal, onOpenResume }) {
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+const Navbar = ({ onOpenTerminal }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navLinks = [
+    { label: 'Work', href: '#work' },
+    { label: 'About', href: '#about' },
+    { label: 'Skills', href: '#skills' },
+    { label: 'Experience', href: '#experience' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Objective', href: '#objective' },
-    { name: 'Internships', href: '#internships' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Education & Certs', href: '#education' },
-    { name: 'Contact', href: '#contact' }
-  ];
+  const handleScrollToTop = () => {
+    soundFX.playClick();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
-    <>
-      <header style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        height: '70px',
-        backgroundColor: scrolled ? 'rgba(9, 9, 11, 0.95)' : 'rgba(9, 9, 11, 0.85)',
-        backdropFilter: 'blur(12px)',
-        WebkitBackdropFilter: 'blur(12px)',
-        borderBottom: '1px solid #27272a',
-        display: 'flex',
-        alignItems: 'center',
-        transition: 'all 0.3s ease'
-      }}>
-        <div style={{
-          width: '100%',
-          maxWidth: '1240px',
-          margin: '0 auto',
-          padding: '0 1.5rem',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          
-          {/* Brand Logo & Title */}
-          <a 
-            href="#top" 
-            style={{ display: 'flex', alignItems: 'center', gap: '12px', textDecoration: 'none' }}
-          >
-            <div style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: '8px',
-              backgroundColor: '#a3e635',
-              color: '#09090b',
-              fontFamily: 'JetBrains Mono, monospace',
-              fontWeight: 800,
-              fontSize: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 0 15px rgba(163, 230, 53, 0.4)',
-              flexShrink: 0
-            }}>
-              CR
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <div style={{
-                fontFamily: 'JetBrains Mono, monospace',
-                fontWeight: 800,
-                color: '#ffffff',
-                fontSize: '14px',
-                letterSpacing: '1px',
-                lineHeight: 1,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px'
-              }}>
-                {PERSONAL_INFO.name}
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#a3e635', display: 'inline-block' }}></span>
-              </div>
-              <div style={{
-                fontSize: '10px',
-                fontFamily: 'JetBrains Mono, monospace',
-                color: '#a1a1aa',
-                letterSpacing: '1px',
-                textTransform: 'uppercase',
-                marginTop: '4px',
-                lineHeight: 1
-              }}>
-                {PERSONAL_INFO.title}
-              </div>
-            </div>
-          </a>
-
-          {/* Desktop Navigation Links */}
-          <nav className="desktop-nav-links" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                style={{
-                  color: '#d4d4d8',
-                  fontSize: '12px',
-                  fontFamily: 'JetBrains Mono, monospace',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  textDecoration: 'none',
-                  whiteSpace: 'nowrap',
-                  transition: 'color 0.2s ease'
-                }}
-                onMouseEnter={(e) => e.target.style.color = '#a3e635'}
-                onMouseLeave={(e) => e.target.style.color = '#d4d4d8'}
-              >
-                {link.name}
-              </a>
-            ))}
-          </nav>
-
-          {/* Header Action Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            
-            {/* CLI HUD Toggle Button */}
-            <button
-              onClick={onOpenTerminal}
-              style={{
-                height: '40px',
-                padding: '0 12px',
-                borderRadius: '8px',
-                backgroundColor: '#18181b',
-                border: '1px solid rgba(163, 230, 53, 0.4)',
-                color: '#a3e635',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                cursor: 'pointer'
-              }}
-            >
-              <Terminal size={14} />
-              <span className="hidden sm:inline">HUD</span>
-            </button>
-
-            {/* Direct PDF Resume Button */}
-            <a
-              href="/CATHRIN_RESUME.pdf"
-              download="CATHRIN_RESUME.pdf"
-              style={{
-                height: '40px',
-                padding: '0 14px',
-                borderRadius: '8px',
-                backgroundColor: '#a3e635',
-                color: '#09090b',
-                fontFamily: 'JetBrains Mono, monospace',
-                fontSize: '12px',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                cursor: 'pointer',
-                textDecoration: 'none',
-                boxShadow: '0 0 15px rgba(163, 230, 53, 0.3)'
-              }}
-            >
-              <FileText size={14} />
-              <span>Resume</span>
-            </a>
-
-            {/* Mobile Drawer Trigger */}
-            <button
-              className="mobile-menu-trigger"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{
-                height: '40px',
-                width: '40px',
-                borderRadius: '8px',
-                backgroundColor: '#18181b',
-                border: '1px solid #27272a',
-                color: '#ffffff',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: 'pointer'
-              }}
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
-          </div>
-
-        </div>
-      </header>
-
-      {/* Mobile Menu Drawer Overlay */}
-      {mobileMenuOpen && (
-        <div 
-          className="mobile-drawer-overlay"
-          style={{
-            position: 'fixed',
-            top: '70px',
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(9, 9, 11, 0.98)',
-            zIndex: 999,
-            padding: '2rem',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '1.5rem',
-            borderBottom: '1px solid #27272a'
-          }}
+    <header 
+      className={`fixed top-0 inset-x-0 z-[999] transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-[#050505]/85 backdrop-blur-xl border-b border-white/[0.06] py-3.5 shadow-[0_10px_30px_rgba(0,0,0,0.8)]' 
+          : 'bg-transparent py-5 border-b border-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 flex items-center justify-between">
+        
+        {/* Left: Clean Brand */}
+        <button
+          onClick={handleScrollToTop}
+          onMouseEnter={() => soundFX.playHover()}
+          className="font-display text-sm font-semibold tracking-[0.2em] uppercase text-white hover:text-[#FFE29A] transition-colors"
         >
+          CATHRIN R
+        </button>
+
+        {/* Right: Clean Minimal Links */}
+        <nav className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <a
-              key={link.name}
+              key={link.label}
               href={link.href}
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                color: '#ffffff',
-                fontSize: '1.1rem',
-                fontFamily: 'JetBrains Mono, monospace',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                padding: '12px 0',
-                borderBottom: '1px solid #18181b',
-                textDecoration: 'none'
-              }}
+              onClick={() => soundFX.playClick()}
+              onMouseEnter={() => soundFX.playHover()}
+              className="text-xs font-mono tracking-wider text-gray/70 hover:text-white transition-colors"
             >
-              {link.name}
+              {link.label}
             </a>
           ))}
-          <a
-            href="/CATHRIN_RESUME.pdf"
-            download="CATHRIN_RESUME.pdf"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{
-              height: '48px',
-              borderRadius: '10px',
-              backgroundColor: '#a3e635',
-              color: '#09090b',
-              fontFamily: 'JetBrains Mono, monospace',
-              fontWeight: 700,
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '8px',
-              marginTop: '1rem',
-              textDecoration: 'none'
-            }}
+
+          {onOpenTerminal && (
+            <button
+              onClick={() => { soundFX.playClick(); onOpenTerminal(); }}
+              onMouseEnter={() => soundFX.playHover()}
+              className="flex items-center gap-1.5 px-3 py-1 rounded-full border border-white/10 text-gray/60 hover:text-[#FFE29A] hover:border-[#D4AF37]/50 hover:bg-[#D4AF37]/5 text-xs font-mono tracking-wider transition-all"
+            >
+              <Terminal size={12} className="text-[#D4AF37]" />
+              <span>HUD</span>
+              <span className="text-[10px] text-gray/40 font-mono">⌘K</span>
+            </button>
+          )}
+        </nav>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => { soundFX.playClick(); setMobileOpen(!mobileOpen); }}
+          className="md:hidden text-gray/70 hover:text-white p-1"
+        >
+          {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+        </button>
+      </div>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden bg-[#070707]/95 backdrop-blur-2xl border-b border-white/10 px-6 py-5 flex flex-col gap-4"
           >
-            <FileText size={18} />
-            <span>Download CATHRIN_RESUME.pdf</span>
-          </a>
-        </div>
-      )}
-    </>
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={() => { soundFX.playClick(); setMobileOpen(false); }}
+                className="text-sm font-mono tracking-wider text-gray/80 hover:text-[#FFE29A] transition-colors py-1"
+              >
+                {link.label}
+              </a>
+            ))}
+
+            {onOpenTerminal && (
+              <button
+                onClick={() => {
+                  soundFX.playClick();
+                  setMobileOpen(false);
+                  onOpenTerminal();
+                }}
+                className="flex items-center justify-between pt-3 border-t border-white/5 text-xs font-mono text-[#FFE29A]"
+              >
+                <span className="flex items-center gap-2">
+                  <Terminal size={14} className="text-[#D4AF37]" />
+                  <span>COMMAND HUD</span>
+                </span>
+                <span className="text-gray/40">CTRL+K</span>
+              </button>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
   );
-}
+};
+
+export default Navbar;

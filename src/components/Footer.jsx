@@ -1,59 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { ArrowUp } from 'lucide-react';
-import { soundFX } from '../utils/audio';
+import React from 'react';
+import { motion } from 'framer-motion';
+import soundFX from '../utils/audio';
 
-export default function Footer() {
-  const [time, setTime] = useState('');
-
-  useEffect(() => {
-    const updateTimer = () => {
-      const now = new Date();
-      setTime(now.toUTCString().replace('GMT', 'UTC'));
-    };
-    updateTimer();
-    const interval = setInterval(updateTimer, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const scrollToTop = () => {
+const Footer = () => {
+  const handleScrollTop = () => {
     soundFX.playClick();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer style={{ borderTop: '1px solid #27272a', backgroundColor: '#05070c', padding: '36px 0', position: 'relative' }}>
-      <div style={{ width: '100%', maxWidth: '1240px', margin: '0 auto', padding: '0 2rem', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '20px' }}>
+    <motion.footer 
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+      className="border-t border-white/5 py-6 px-6 relative z-10 bg-[#050505]"
+    >
+      <div className="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+        <div className="text-[#a0a0a0]/50 text-xs font-mono">
+          Cathrin R © 2026
+        </div>
         
-        {/* Left */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ width: '32px', height: '32px', borderRadius: '6px', backgroundColor: 'rgba(163, 230, 53, 0.1)', border: '1px solid rgba(163, 230, 53, 0.3)', color: '#a3e635', fontFamily: 'JetBrains Mono, monospace', fontWeight: 800, fontSize: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            CR
-          </div>
-          <div>
-            <div style={{ fontSize: '12px', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700, color: '#e4e4e7' }}>
-              Cathrin R &copy; {new Date().getFullYear()}
-            </div>
-            <div style={{ fontSize: '10px', fontFamily: 'JetBrains Mono, monospace', color: '#71717a' }}>
-              Full Stack Developer & AI Engineer Portfolio
-            </div>
-          </div>
+        <div className="text-[#a0a0a0]/40 text-xs font-mono">
+          Full Stack & Node.js Developer
         </div>
-
-        {/* Center Timer */}
-        <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: '11px', color: '#71717a' }}>
-          <span style={{ color: '#a3e635', fontWeight: 600 }}>{time}</span>
-        </div>
-
-        {/* Right Scroll Top */}
-        <button
-          onClick={scrollToTop}
-          style={{ padding: '8px 16px', borderRadius: '8px', backgroundColor: '#18181b', border: '1px solid #27272a', color: '#a1a1aa', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontFamily: 'JetBrains Mono, monospace' }}
+        
+        <button 
+          onClick={handleScrollTop}
+          onMouseEnter={() => soundFX.playHover()}
+          className="text-[#D4AF37]/70 text-xs font-mono uppercase tracking-wider hover:text-[#FFE29A] transition-colors flex items-center gap-1 group"
         >
-          <span>Return Top</span>
-          <ArrowUp size={14} color="#a3e635" />
+          RETURN TOP <span className="group-hover:-translate-y-1 transition-transform duration-300">↑</span>
         </button>
-
       </div>
-    </footer>
+    </motion.footer>
   );
-}
+};
+
+export default Footer;
