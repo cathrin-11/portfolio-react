@@ -1,133 +1,219 @@
 export const PERSONAL_INFO = {
   name: "CATHRIN R",
-  title: "FULL STACK & NODE.JS DEVELOPER",
+  title: "SOFTWARE DEVELOPMENT ENGINEER",
+  role: "Full Stack & AI Engineer",
   email: "cathrin1103@gmail.com",
   phone: "+91 6369838636",
   location: "Coimbatore, India",
   github: "https://github.com/Cathrin-11",
   linkedin: "https://linkedin.com/in/Cathrin-R",
-  bio: "High-performance Full Stack & Node.js Engineer specializing in distributed backend microservices, real-time event architectures, and reactive frontend experiences. Proven expertise across Node.js, Spring Boot, React, and AI-driven algorithmic workflows with a relentless commitment to clean architecture, sub-second API latency, and scalable cloud deployments.",
-  objective: "High-performance Full Stack & Node.js Engineer specializing in distributed backend microservices, real-time event architectures, and reactive frontend experiences. Proven expertise across Node.js, Spring Boot, React, and AI-driven algorithmic workflows with a relentless commitment to clean architecture, sub-second API latency, and scalable cloud deployments."
+  bio: "Software Development Engineer specializing in full-stack web architectures, distributed backend APIs, and computer vision / machine learning systems. Experienced in React, Node.js, Spring Boot, Python, and AI-driven interactive applications with a relentless commitment to clean code and high performance.",
+  objective: "I’m driven by a passion for coding and problem-solving. I'm excited to join a team where I can grow, innovate, and make a real impact. With a strong foundation in programming, I'm eager to learn and contribute to a dynamic organization. I'm looking for a collaborative environment that fosters creativity and growth."
 };
 
 export const SKILLS = [
   "React.js",
   "Node.js",
+  "REST APIs",
   "Spring Boot",
-  "REST API",
+  "Python",
   "Java",
   "C++",
-  "Python",
   "MySQL",
   "MongoDB",
+  "AWS Cloud",
   "Machine Learning",
+  "Data Analysis",
+  "TensorFlow & CNN",
+  "OpenCV & MediaPipe",
   "FastAPI",
-  "AWS Cloud"
+  "WebSockets"
 ];
 
 export const SKILL_CATEGORIES = [
   {
     id: "languages",
-    title: "Languages",
-    skills: ["Java", "C++", "JavaScript", "Python", "SQL"]
+    title: "Programming Languages",
+    skills: ["Java", "Python", "C++", "JavaScript", "SQL"]
   },
   {
     id: "frontend",
-    title: "Frontend Development",
-    skills: ["React.js", "HTML5", "CSS3 / Vanilla CSS", "Tailwind CSS", "Hooks / State Management"]
+    title: "Frontend & UI Systems",
+    skills: ["React.js", "Hooks / State Management", "Tailwind CSS", "HTML5 & CSS3", "Responsive UI/UX"]
   },
   {
     id: "backend",
-    title: "Backend Development",
-    skills: ["Node.js", "Express.js", "Spring Boot", "Spring Data JPA", "RESTful APIs", "FastAPI"]
+    title: "Backend & APIs",
+    skills: ["Node.js", "Spring Boot", "Spring Data JPA", "RESTful APIs", "FastAPI", "WebSockets & Polling"]
   },
   {
-    id: "databases-cloud",
-    title: "Databases & Cloud & AI",
-    skills: ["MySQL", "MongoDB", "AWS Cloud", "Machine Learning", "NLP / MiniLM", "Git & Docker"]
+    id: "ai-cloud-data",
+    title: "AI, Vision & Cloud",
+    skills: ["OpenCV & MediaPipe", "TensorFlow & CNN", "Machine Learning & NLP", "MySQL & MongoDB", "AWS Cloud", "Data Analysis"]
   }
 ];
 
 export const PROJECTS = [
   {
-    id: "yoga-instructor-app",
-    title: "Yoga Instructor Application",
-    shortDesc: "Engineered a high-concurrency booking platform utilizing React.js, Node.js microservices, and MongoDB with role-based JWT authentication and real-time scheduling APIs.",
-    badge: "Full Stack System",
-    accentColor: "#a3e635",
-    techStack: ["React.js", "Node.js", "MongoDB", "RESTful APIs"],
-    tech: ["React.js", "Node.js", "MongoDB", "RESTful APIs"],
+    id: "vehicle-service-portal",
+    title: "Vehicle Service Booking Portal",
+    shortDesc: "Built a Vehicle Service Booking Portal using React with modular, reusable components and Hooks-based state management, integrating live order tracking and secure auth.",
+    badge: "Frontend & Realtime Auth",
+    accentColor: "#6366f1",
+    techStack: ["React", "Custom Hooks", "JWT", "Firebase", "WebSockets", "REST APIs"],
+    tech: ["React", "Custom Hooks", "JWT", "Firebase", "WebSockets", "REST APIs"],
     bullets: [
-      "Engineered an enterprise-ready Yoga Instructor Booking platform leveraging React.js, Node.js, and MongoDB.",
-      "Architected high-throughput RESTful API endpoints managing user auth, instructor matchmaking, and transactional scheduling.",
-      "Designed responsive, optimized UI with sub-100ms interaction feedback and reactive state caching.",
-      "Implemented secure JWT session protocols and strict granular RBAC (Role-Based Access Control).",
-      "Optimized MongoDB indexing and query pipelines, reducing data retrieval latency by over 35%."
+      "Built a Vehicle Service Booking Portal using React with modular, reusable components and Hooks-based state management.",
+      "Integrated service listings, booking workflow, and secure authentication (JWT/Firebase/Auth libraries).",
+      "Introduced live order tracking through API polling/WebSockets for real-time status updates.",
+      "Developed a responsive, optimized UI with clean navigation and seamless user interactions."
     ],
     highlights: [
-      "High-concurrency full-stack architecture with React.js & Node.js",
-      "Sub-second RESTful API pipelines for auth, matching, and schedules",
-      "Granular RBAC security protocols & indexed MongoDB data engine"
+      "Modular components & Hooks-based state management",
+      "Live order tracking through API polling & WebSockets",
+      "Integrated JWT/Firebase authentication workflows"
     ]
   },
   {
-    id: "vehicle-service-portal",
-    title: "Vehicle Service Booking Portal",
-    shortDesc: "Built an enterprise-grade vehicle service lifecycle portal with reactive custom hooks, WebSocket-powered live dispatch tracking, and zero-trust auth integrations.",
-    badge: "Frontend & Realtime Auth",
-    accentColor: "#6366f1",
-    techStack: ["React", "Custom Hooks", "JWT", "Firebase", "WebSockets"],
-    tech: ["React", "Custom Hooks", "JWT", "Firebase", "WebSockets"],
+    id: "yoga-instructor-app",
+    title: "Yoga Instructor Application",
+    shortDesc: "Built a full-stack Yoga Instructor Booking application using React.js, Node.js, and MongoDB with secure role-based session scheduling.",
+    badge: "Full Stack System",
+    accentColor: "#a3e635",
+    techStack: ["React.js", "Node.js", "MongoDB", "RESTful APIs", "JWT Auth"],
+    tech: ["React.js", "Node.js", "MongoDB", "RESTful APIs", "JWT Auth"],
     bullets: [
-      "Built an enterprise Vehicle Service Booking Portal featuring modular atomic components and reactive custom hook architectures.",
-      "Integrated multi-stage service workflows, payment reconciliation, and resilient JWT/Firebase authentication layers.",
-      "Engineered live telemetric order tracking via bi-directional WebSockets and intelligent API polling fallback.",
-      "Optimized frontend bundle and asset caching for instantaneous page loads and fluid cross-device experiences."
+      "Built a full-stack Yoga Instructor Booking application using React.js, Node.js, and MongoDB.",
+      "Developed RESTful APIs to manage user authentication, instructor profiles, session bookings, and schedules.",
+      "Designed responsive frontend interfaces with React for seamless user experience and real-time interaction.",
+      "Implemented secure login, booking management, and role-based access for users and instructors.",
+      "Integrated database operations using MongoDB and optimized backend performance for efficient data handling."
     ],
     highlights: [
-      "Modular atomic architecture with reactive custom hooks",
-      "Bi-directional WebSocket live telemetry and order tracking",
-      "Hardened JWT & Firebase zero-trust authentication workflows"
+      "Full-stack booking application using React.js, Node.js and MongoDB",
+      "RESTful APIs for authentication, profiles, and schedules",
+      "Secure login & role-based access for users and instructors"
     ]
   },
   {
     id: "ai-nurse-matching",
     title: "AI-Based Clinical-Fit Matching System for Home Nursing",
-    shortDesc: "Architected an intelligent healthcare dispatch engine utilizing FastAPI, MiniLM semantic vector embeddings, and Haversine geospatial proximity routing.",
-    badge: "AI & GIS Infrastructure",
+    shortDesc: "Built an AI-driven healthcare matching system using React.js, FastAPI, and NLP techniques for intelligent nurse-patient allocation.",
+    badge: "AI Healthcare & GIS",
     accentColor: "#34d399",
-    techStack: ["React.js", "FastAPI", "NLP", "MiniLM", "Haversine GIS"],
-    tech: ["React.js", "FastAPI", "NLP", "MiniLM", "Haversine GIS"],
+    techStack: ["React.js", "FastAPI", "NLP", "MiniLM", "Haversine GIS", "WebSockets"],
+    tech: ["React.js", "FastAPI", "NLP", "MiniLM", "Haversine GIS", "WebSockets"],
     bullets: [
-      "Architected an AI-powered clinical matching engine using FastAPI, React.js, and advanced NLP for optimal nurse-patient allocation.",
-      "Deployed semantic vector embeddings via MiniLM and cosine similarity to match complex patient diagnoses with clinical skill matrices.",
-      "Engineered geospatial filtering utilizing Haversine proximity formulas, slashing emergency nurse response dispatch times.",
-      "Constructed a real-time pre-confirmation WebSocket messaging hub to maintain clinical transparency and patient safety."
+      "Built an AI-driven healthcare matching system using React.js, FastAPI, and NLP techniques for intelligent nurse-patient allocation.",
+      "Implemented semantic matching using MiniLM embeddings and cosine similarity to accurately map patient requirements with nurse skills.",
+      "Integrated location-based filtering using the Haversine formula to ensure efficient and practical nurse assignment.",
+      "Developed an interactive pre-confirmation chat system to improve communication, transparency, and trust between patients and nurses.",
+      "Designed a scalable architecture combining AI models, REST APIs, and a responsive frontend for real-time healthcare service delivery."
     ],
     highlights: [
-      "Semantic vector matching via MiniLM embeddings & cosine similarity",
-      "Haversine GIS spatial proximity algorithms for rapid nurse routing",
-      "Low-latency real-time pre-confirmation clinical communication hub"
+      "Semantic matching using MiniLM embeddings & cosine similarity",
+      "Location-based GIS filtering via Haversine formula",
+      "Interactive pre-confirmation WebSocket chat system"
     ]
   },
   {
     id: "digital-coupon-platform",
     title: "Digital Coupon Platform",
-    shortDesc: "Developed a distributed Spring Boot microservice with Spring Data JPA, AOP-driven telemetry logging, and dynamic multi-criteria query optimization.",
+    shortDesc: "Developed a RESTful backend using Spring Boot and Spring Data JPA with full CRUD functionality, pagination, and AOP-based logging.",
     badge: "Backend Microservice",
     accentColor: "#fbbf24",
-    techStack: ["Spring Boot", "Spring Data JPA", "REST API", "AOP Logging"],
-    tech: ["Spring Boot", "Spring Data JPA", "REST API", "AOP Logging"],
+    techStack: ["Spring Boot", "Spring Data JPA", "REST API", "AOP Logging", "MySQL"],
+    tech: ["Spring Boot", "Spring Data JPA", "REST API", "AOP Logging", "MySQL"],
     bullets: [
-      "Developed a robust RESTful microservice backend with Spring Boot and Spring Data JPA delivering full transactional CRUD operations.",
-      "Designed dynamic multi-criteria query endpoints with pagination, cursor sorting, and cached metadata retrieval.",
-      "Applied Aspect-Oriented Programming (AOP) for distributed tracing, execution logging, and audit compliance.",
-      "Leveraged Dependency Injection and multi-tier architectural separation to ensure horizontal scalability."
+      "Developed a RESTful backend using Spring Boot and Spring Data JPA with full CRUD functionality.",
+      "Added pagination, sorting, and custom query endpoints for flexible data retrieval.",
+      "Applied AOP-based logging to maintain clean observability and modular architecture.",
+      "Utilized Dependency Injection and layered design to support scalability and maintainability."
     ],
     highlights: [
-      "Transactional Spring Boot & Spring Data JPA microservice architecture",
-      "AOP-based execution tracing and audit logging infrastructure",
-      "Dynamic multi-criteria query optimization with pagination & caching"
+      "Full CRUD RESTful backend using Spring Boot & Spring Data JPA",
+      "AOP-based logging for observability & clean architecture",
+      "Custom query endpoints with pagination & sorting"
+    ]
+  },
+  {
+    id: "ai-sign-language-detection",
+    title: "AI-Based Sign Language Detection",
+    shortDesc: "Built an AI-powered Sign Language Recognition system using TensorFlow, CNN, OpenCV, and MediaPipe for live real-time alphabet translation.",
+    badge: "Deep Learning & Vision",
+    accentColor: "#38bdf8",
+    techStack: ["TensorFlow", "CNN", "OpenCV", "MediaPipe", "Python", "Sign MNIST"],
+    tech: ["TensorFlow", "CNN", "OpenCV", "MediaPipe", "Python", "Sign MNIST"],
+    bullets: [
+      "Built an AI-powered Sign Language Recognition system using TensorFlow, CNN, OpenCV, and MediaPipe.",
+      "Designed a pipeline that interprets hand signs in real time using live webcam input.",
+      "Trained and optimized the model on the Sign MNIST dataset, achieving high classification accuracy.",
+      "Delivered instant translation of gestures into alphabet characters for improved accessibility."
+    ],
+    highlights: [
+      "Real-time hand sign interpretation from live webcam input",
+      "High accuracy CNN model trained on Sign MNIST dataset",
+      "Instant alphabet translation for enhanced accessibility"
+    ]
+  },
+  {
+    id: "gesture-driven-drone-simulator",
+    title: "Gesture-Driven Drone Simulator",
+    shortDesc: "Developed an interactive gesture-controlled drone simulator using Python, OpenCV, and MediaPipe mapping hand actions in a 3D environment.",
+    badge: "Computer Vision & Simulation",
+    accentColor: "#a855f7",
+    techStack: ["Python", "OpenCV", "MediaPipe", "3D Simulation", "Gesture Mapping"],
+    tech: ["Python", "OpenCV", "MediaPipe", "3D Simulation", "Gesture Mapping"],
+    bullets: [
+      "Developed a gesture-controlled drone simulator using Python, OpenCV, and MediaPipe.",
+      "Applied hand-gesture commands for actions such as hovering, landing, and directional control in a 3D environment.",
+      "Crafted an interactive simulation showcasing gesture-to-action mapping and intuitive drone control.",
+      "Designed a smooth visualization layer to support responsive, real-time interaction."
+    ],
+    highlights: [
+      "Hand-gesture commands for 3D drone hovering, landing & directional control",
+      "Interactive real-time gesture-to-action mapping pipeline",
+      "Smooth computer vision visualization layer in Python"
+    ]
+  },
+  {
+    id: "emotion-detection-app",
+    title: "Emotion Detection App",
+    shortDesc: "Created a real-time facial emotion recognition application using Deep Learning, Computer Vision, and CNNs to classify affective states via webcam.",
+    badge: "Affective Computing",
+    accentColor: "#f43f5e",
+    techStack: ["Deep Learning", "Computer Vision", "CNN", "OpenCV", "Python"],
+    tech: ["Deep Learning", "Computer Vision", "CNN", "OpenCV", "Python"],
+    bullets: [
+      "Created a real-time facial emotion recognition application using Deep Learning and Computer Vision.",
+      "Applied a CNN-based architecture to classify emotions such as happy, sad, angry, and neutral through webcam input.",
+      "Developed a live facial analysis module for accurate affective state detection.",
+      "Demonstrated expertise in affective computing and intelligent human–machine interaction."
+    ],
+    highlights: [
+      "CNN-based real-time facial emotion classification (happy, sad, angry, neutral)",
+      "Live webcam facial analysis module for affective state detection",
+      "Intelligent human-machine interaction pipeline"
+    ]
+  },
+  {
+    id: "air-canvas",
+    title: "Air Canvas Gesture Drawing",
+    shortDesc: "Designed an AI-driven Air Canvas using OpenCV and MediaPipe for midair finger-tracking drawing with gesture-based color selection.",
+    badge: "AI Vision & Interaction",
+    accentColor: "#eab308",
+    techStack: ["OpenCV", "MediaPipe", "Python", "Gesture Recognition", "HCI"],
+    tech: ["OpenCV", "MediaPipe", "Python", "Gesture Recognition", "HCI"],
+    bullets: [
+      "Designed an AI-driven Air Canvas using OpenCV and MediaPipe for gesture-based drawing.",
+      "Engineered finger-tracking to draw in midair without any physical input device.",
+      "Added gesture-controlled color selection, eraser mode, and smooth drawing flow.",
+      "Delivered real-time gesture recognition to enhance natural human–computer interaction."
+    ],
+    highlights: [
+      "Touchless midair drawing via optical finger-tracking",
+      "Gesture-controlled color selection, brush sizing, and eraser modes",
+      "Real-time computer vision pipeline powered by MediaPipe & OpenCV"
     ]
   }
 ];
@@ -139,20 +225,22 @@ export const INTERNSHIPS = [
     location: "Chennai, India",
     period: "07/2024 – 09/2024 & 05/2025 – 06/2025",
     type: "Internship",
-    description: "Architected production-ready web interfaces, integrated secure RESTful API microservices, and optimized database pipelines for enterprise web applications.",
-    tags: ["React", "Web Development", "REST APIs", "Node.js"]
+    description: "Built responsive web applications, integrated secure RESTful API endpoints, and optimized database handling during Junior Web Developer tenure.",
+    tags: ["React", "Web Development", "REST APIs", "Node.js", "MySQL"]
   }
 ];
 
 export const EXPERIENCE = INTERNSHIPS;
 
 export const EDUCATION_AND_CERTIFICATIONS = [
-  "B.E Computer Science and Engineering — Sri Krishna College of Technology, Coimbatore, TN (8.6 / 10 CGPA)",
+  "B.E Computer Science and Engineering — Sri Krishna College of Technology, Coimbatore, TN (CGPA: 8.5 / 10)",
   "Python Essentials 1 & 2 — Cisco Networking Academy",
   "Introduction to Cybersecurity — Cisco Networking Academy",
   "Cybersecurity Analyst Job Simulation — Forage TATA",
-  "Cloud Computing, Mobile VR & AI, Effective Writing — NPTEL Elite + Silver Certification",
-  "Java Programming, Data Structures & Algorithms — Infosys Springboard"
+  "Cloud Computing — NPTEL Elite + Silver Certification",
+  "Mobile Virtual Reality and Artificial Intelligence — NPTEL Elite + Silver Certification",
+  "Effective Writing — NPTEL Elite + Silver Certification",
+  "Java Programming, Data Structures and Algorithms — Infosys Springboard"
 ];
 
 export const EDUCATION = [
@@ -160,8 +248,8 @@ export const EDUCATION = [
     degree: "B.E Computer Science and Engineering",
     institution: "Sri Krishna College of Technology",
     location: "Coimbatore, TN",
-    grade: "8.6 / 10 CGPA",
-    details: "Specialized in Full Stack Web Development, Distributed Systems, Algorithms, Machine Learning, and Cloud Computing."
+    grade: "8.5 / 10 CGPA",
+    details: "Specialized in Computer Science, Full Stack Web Development, Deep Learning, Computer Vision, Algorithms, and Cloud Systems."
   }
 ];
 
@@ -169,6 +257,8 @@ export const CERTIFICATIONS = [
   { title: "Python Essentials 1 & 2", issuer: "Cisco Networking Academy", year: "Verified", badge: "Cisco" },
   { title: "Introduction to Cybersecurity", issuer: "Cisco Networking Academy", year: "Verified", badge: "Cisco" },
   { title: "Cybersecurity Analyst Simulation", issuer: "Forage TATA", year: "Verified", badge: "TATA" },
-  { title: "Cloud Computing, Mobile VR & AI, Effective Writing", issuer: "NPTEL", year: "Verified", badge: "Elite + Silver" },
+  { title: "Cloud Computing", issuer: "NPTEL", year: "Verified", badge: "Elite + Silver" },
+  { title: "Mobile VR & Artificial Intelligence", issuer: "NPTEL", year: "Verified", badge: "Elite + Silver" },
+  { title: "Effective Writing", issuer: "NPTEL", year: "Verified", badge: "Elite + Silver" },
   { title: "Java Programming, Data Structures & Algorithms", issuer: "Infosys Springboard", year: "Verified", badge: "Infosys" }
 ];

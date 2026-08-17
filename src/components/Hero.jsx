@@ -25,14 +25,16 @@ const fadeUp = {
 
 const Hero = ({ onOpenTerminal }) => {
   const techStack = [
+    'REACT',
     'NODE.JS',
-    'REACT.JS',
     'SPRING BOOT',
-    'FASTAPI',
-    'MONGODB',
+    'PYTHON',
+    'JAVA',
+    'C++',
     'MYSQL',
-    'REST APIS',
-    'AWS CLOUD'
+    'MONGODB',
+    'AWS CLOUD',
+    'MACHINE LEARNING'
   ];
 
   return (
@@ -73,7 +75,7 @@ const Hero = ({ onOpenTerminal }) => {
             variants={fadeUp}
             className="font-mono text-xs tracking-[0.2em] uppercase text-gray/50 font-medium mb-3"
           >
-            FULL STACK &amp; NODE.JS DEVELOPER
+            SOFTWARE DEVELOPMENT ENGINEER
           </motion.div>
 
           {/* Headline: CATHRIN R. (Left-aligned) */}
@@ -90,7 +92,7 @@ const Hero = ({ onOpenTerminal }) => {
             variants={fadeUp} 
             className="font-sans text-base sm:text-lg text-gray/70 max-w-2xl leading-relaxed mb-8 text-left"
           >
-            Architecting ultra-low latency <strong className="text-white font-medium">Node.js microservices</strong>, reactive <strong className="text-white font-medium">React.js frontends</strong>, and intelligent <strong className="text-[#FFE29A] font-medium">AI matching workflows</strong>. Engineering mission-critical architectures with high throughput, airtight security, and uncompromising visual precision.
+            Software Development Engineer specializing in <strong className="text-white font-medium">full-stack web architectures</strong>, distributed <strong className="text-white font-medium">backend APIs</strong>, and intelligent <strong className="text-[#FFE29A] font-medium">computer vision &amp; machine learning pipelines</strong>. Building scalable, high-throughput systems with clean modular design.
           </motion.p>
 
           {/* Tech Row with Dividers */}
@@ -120,7 +122,7 @@ const Hero = ({ onOpenTerminal }) => {
               onMouseEnter={() => soundFX.playHover()}
               className="px-6 py-3.5 rounded-lg border border-[#D4AF37]/50 bg-[#090909]/40 text-[#D4AF37] font-mono text-xs tracking-[0.14em] uppercase font-semibold hover:bg-[#D4AF37]/10 hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.25)] transition-all flex items-center gap-3"
             >
-              <span>EXPLORE PROJECTS</span>
+              <span>EXPLORE ALL 8 PROJECTS</span>
               <ArrowRight size={14} className="text-[#D4AF37]" />
             </a>
 
